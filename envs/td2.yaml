@@ -3,6 +3,16 @@ channels:
   - bioconda
 dependencies:
   - python=3.11
+  - perl
+  - perl-app-cpanminus
+  - perl-carp
+  - perl-digest-md5
+  - perl-file-slurp
+  - perl-gff3
+  - perl-findbin
+  - perl-test-simple
+  - cpanminus
   - pip
   - pip:
       - TD2==1.0.6
+      - bash: cpanm --notest Gene_obj Fasta_retriever GFF3_utils2
