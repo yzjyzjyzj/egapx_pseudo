@@ -25,14 +25,18 @@ rule extract_pseudogene_gff:
         gff="data/{sample}.gff3",
         ids="work/{sample}.pseudogene.ids"
     output:
-        gff="work/{sample}.pseudogene.gff3"
+        gff_pseudo="work/{sample}.pseudogene.gff3",
+        gff_gene="work/{sample}.nonpseudo.gff3"
     conda:
         "envs/agat.yaml"
     shell:
         """
         agat_sp_filter_feature_from_keep_list.pl \
         --gff {input.gff} --keep_list {input.ids} \
-        --output {output.gff}
+        --output {output.gff_gene}
+        
+        agat_sp_filter_feature_from_kill_list.pl --gff {input.gff} \
+        --kill_list {input.ids} --output {output.gff_gene} \
         """
 
 rule convert_gff_to_gtf:
@@ -118,15 +122,29 @@ rule generate_cds_gff:
 rule filter_incomplete:
     input:
         gff3="work/{sample}.cdna.fasta.TD2.genome.gff3",
-        genome="data/{sample}.genome.fasta"
+        genome="data/{sample}.genome.fasta",
+        gff3_gene="work/{sample}.nonpseudo.gff3"
     output:
-        gff3="results/{sample}.cdna.fasta.TD2.genome.filter.gff3"
+        gff3="work/{sample}.cdna.fasta.TD2.genome.filter.gff3",
+        gff3_gene_filter="work/{sample}.nonpseudo.filter.gff3",
+        gff3_combine="work/{sample}.combined.gff3",
+        gff3_final="results/{sample}.final.gff3",
+        gff3_stats="results/{sample}.stats.txt"
     conda:
         "envs/agat.yaml"
     shell:
         """
         agat_sp_filter_incomplete_gene_coding_models.pl --gff {input.gff3} \
         --fasta {input.genome} -o {output.gff3}
+        
+        agat_sp_filter_incomplete_gene_coding_models.pl --gff {input.gff3_gene} \
+        --fasta {input.genome} -o {output.gff3_gene_filter}
+        
+        cat {output.gff3} {output.gff3_gene_filter} > {output.gff3_combine}
+        
+        bedtools sort -i {output.gff3_combine} > {output.gff3_final}
+        
+        agat_sp_statistics.pl --gff {output.gff3_final} -o {output.gff3_stats} 
         """
 
 
