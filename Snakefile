@@ -33,7 +33,7 @@ rule extract_pseudogene_gff:
         """
         agat_sp_filter_feature_from_keep_list.pl \
         --gff {input.gff} --keep_list {input.ids} \
-        --output {output.gff_gene}
+        --output {output.gff_pseudo}
         
         agat_sp_filter_feature_from_kill_list.pl --gff {input.gff} \
         --kill_list {input.ids} --output {output.gff_gene} \
