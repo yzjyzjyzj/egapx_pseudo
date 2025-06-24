@@ -91,11 +91,11 @@ rule extract_orf:
         TD2.LongOrfs -t {input.cdna} --output-dir {output.outdir}
         """
 
-rule predict_cds:
+rule predict_cdna:
     input:
         cdna="work/{sample}.cdna.fasta"
     output:
-        outdir = directory("work/{sample}.cds"),
+        outdir = directory("work/{sample}.cdna.fasta"),
         gff3="work/{sample}.cdna.fasta.TD2.gff3"
     conda:
         "envs/td2.yaml"
