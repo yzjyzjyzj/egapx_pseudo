@@ -8,10 +8,9 @@ dependencies:
   - perl-carp
   - perl-digest-md5
   - perl-file-slurp
-  - perl-gff3
+  - perl-bio-gff3
   - perl-findbin
   - perl-test-simple
-  - cpanminus
   - pip
   - pip:
       - TD2==1.0.6
