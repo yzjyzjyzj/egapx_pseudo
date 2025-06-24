@@ -58,26 +58,18 @@ rule gtf_to_cdna:
         gtf="work/{sample}.pseudogene.gtf",
         genome="data/{sample}.genome.fasta"
     output:
-        cdna="work/{sample}.cdna.fasta"
+        cdna="work/{sample}.cdna.fasta",
+        gff3="work/{sample}.pseudogene.gtf.gff3"
     conda:
         "envs/td2.yaml"
     shell:
         """
         scripts/gtf_genome_to_cdna_fasta.pl {input.gtf} {input.genome} \
         > {output.cdna}
-        """
-
-rule gtf_to_gff3:
-    input:
-        gtf="work/{sample}.pseudogene.gtf",
-    output:
-        gff3="work/{sample}.pseudogene.gtf.gff3"
-    conda:
-        "envs/td2.yaml"
-    shell:
-        """
+        
         scripts/gtf_to_alignment_gff3.pl {input.gtf} > {output.gff3}
         """
+
 
 rule extract_orf:
     input:
