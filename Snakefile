@@ -105,7 +105,7 @@ rule predict_cds:
 
 rule generate_cds_gff:
     input:
-        td2_gff3="work/{sample}.cdna.fasta.td2.gff3",
+        td2_gff3="work/{sample}.cdna.fasta.TD2.gff3",
         gtf_gff3="work/{sample}.pseudogene.gtf.gff3",
         cdna="work/{sample}.cdna.fasta"
     output:
