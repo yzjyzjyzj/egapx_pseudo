@@ -75,26 +75,31 @@ rule extract_orf:
     input:
         cdna="work/{sample}.cdna.fasta"
     output:
-        outdir = directory("work/{sample}.cdna")
-    conda:
-        "envs/td2.yaml"
-    shell:
-        """
-        TD2.LongOrfs -t {input.cdna} --output-dir {output.outdir}
-        """
-
-rule predict_cdna:
-    input:
-        cdna="work/{sample}.cdna.fasta"
-    output:
-        outdir = directory("work/{sample}.cdna.fasta"),
+        outdir = directory("work/{sample}.cdna"),
         gff3="work/{sample}.cdna.fasta.TD2.gff3"
     conda:
         "envs/td2.yaml"
     shell:
         """
-        TD2.Predict -t {input.cdna} -O {output.outdir}
+        TD2.LongOrfs -t {input.cdna} --output-dir {output.outdir}
+        
+        TD2.Predict -t {input.cdna}
+        
+        mv work/{wildcards.sample}.cdna.fasta.TD2.gff3 {output.gff3}
         """
+
+# rule predict_cdna:
+#     input:
+#         cdna="work/{sample}.cdna.fasta"
+#     output:
+#         outdir = directory("work/{sample}.cdna.fasta"),
+#         gff3="work/{sample}.cdna.fasta.TD2.gff3"
+#     conda:
+#         "envs/td2.yaml"
+#     shell:
+#         """
+#         TD2.Predict -t {input.cdna} -O {output.outdir}
+#         """
 
 rule generate_cds_gff:
     input:
