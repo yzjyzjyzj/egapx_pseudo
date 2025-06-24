@@ -95,7 +95,8 @@ rule predict_cds:
     input:
         cdna="work/{sample}.cdna.fasta"
     output:
-        outdir = directory("work/{sample}.cds")
+        outdir = directory("work/{sample}.cds"),
+        gff3="work/{sample}.cdna.fasta.TD2.gff3"
     conda:
         "envs/td2.yaml"
     shell:
