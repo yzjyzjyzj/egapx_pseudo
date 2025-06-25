@@ -83,7 +83,9 @@ rule extract_orf:
         """
         TD2.LongOrfs -t {input.cdna} --output-dir {output.outdir}
         
-        TD2.Predict -t {input.cdna}
+        TD2.Predict -t {input.cdna} -O {output.outdir}
+        
+        mv {wildcards.sample}.TD2* work/
         """
 
 # rule predict_cdna:
