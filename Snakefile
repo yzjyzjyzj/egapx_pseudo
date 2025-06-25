@@ -85,7 +85,7 @@ rule extract_orf:
         
         TD2.Predict -t {input.cdna} -O {output.outdir}
         
-        mv {wildcards.sample}.TD2* work/
+        mv {wildcards.sample}.cdna.fasta.TD2* work/
         """
 
 # rule predict_cdna:
